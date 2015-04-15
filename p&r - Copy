@@ -1,0 +1,78 @@
+local i=1 
+repeat
+function Control()
+   
+
+end
+
+function Restock()
+   turtle.select(1)
+   turtle.suckUp()
+   
+   turtle.select(9)
+   turtle.turnLeft()
+   turtle.suck()
+   turtle.turnRight()
+   Plant()
+end
+
+function Store()
+   turtle.select(2)
+   seeds = turtle.getItemCount()
+   turtle.dropUP(seeds-1)
+   
+   turtle.turnRight()
+   turtle.select(16)
+   wheat = turtle.getItemCount()
+   turtle.drop(wheat-1)
+   turtle.turnLeft()
+   
+   Restock()
+end
+
+function Reap()
+   turtle.detect()
+   if turtle.detect() == true then
+   turtle.dig()
+   turtle.suck()
+   end
+   Store()
+   
+end
+
+function Fertiziling()
+   local success, data = turtle.inspect()
+   if success == false then
+   Plant()
+   end
+   if success == true and data.metadata < 7 then
+   turtle.select(9)
+   turtle.place()
+   Fertilizing()
+   end
+   if success == true and data.metadata == 7 then
+   Reap()
+   end
+end
+
+function Plant()
+   turtle.select(1)
+   turtle.detect()
+   if turtle.detect == true then
+   Fertilizing()
+   end
+   if turtle.detect() == false then
+   turtle.place()
+   Fertilizing()
+   end
+end
+
+
+
+
+
+
+
+
+Plant()
+until i == 2
